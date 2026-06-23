@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: '"Plus Jakarta Sans"', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #1b51d8;
+  color: #fff;
+}
+
+.navy-grad {
+  background: radial-gradient(120% 120% at 50% -10%, #18327e 0%, #0c1f5c 42%, #091640 100%);
+}
+
+.navy-grad-soft {
+  background: linear-gradient(180deg, #0c1f5c 0%, #0a1a4e 100%);
+}
+
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 50% at 50% 0%, rgba(59, 109, 246, 0.3) 0%, rgba(12, 31, 92, 0) 70%);
+  pointer-events: none;
+}
+
+.grid-lines {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.ph-stripe {
+  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0 8px, transparent 8px 16px);
+}
+
+.ph-stripe-dark {
+  background-image: repeating-linear-gradient(135deg, rgba(12, 31, 92, 0.06) 0 8px, transparent 8px 16px);
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.fade-up.in {
+  opacity: 1;
+  transform: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes flowDash {
+  to { stroke-dashoffset: -16; }
+}
+
+.flow-line {
+  stroke-dasharray: 5 5;
+  animation: flowDash 1s linear infinite;
+}
+
+@keyframes mqUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+@keyframes mqDown {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+
+.hero-mq-up {
+  animation: mqUp 32s linear infinite;
+}
+
+.hero-mq-down {
+  animation: mqDown 32s linear infinite;
+}
+
+@keyframes mqLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: mqLeft 45s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-mq-up,
+  .hero-mq-down,
+  .marquee-track {
+    animation: none;
+  }
+}
