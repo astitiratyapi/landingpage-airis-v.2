@@ -9,3 +9,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# netlify CLI state
+.netlify

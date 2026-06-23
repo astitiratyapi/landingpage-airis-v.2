@@ -14,9 +14,7 @@ export interface NavLink {
 export const NAV_LINKS: NavLink[] = [
   { label: 'About', href: '#intro' },
   { label: 'Events', href: '#events', page: 'events' },
-  { label: 'Pricing', href: '#benefits' },
   { label: 'Products', href: '#products', page: 'products' },
-  { label: 'Resources', href: '#resources' },
 ];
 
 // Core Modules — bento cards
