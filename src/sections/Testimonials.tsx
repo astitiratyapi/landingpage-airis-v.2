@@ -57,12 +57,18 @@ export function Testimonials() {
     const el = trackRef.current;
     if (!el) return;
     const half = el.scrollWidth / 2;
-    el.scrollBy({ left: dir * 420, behavior: 'smooth' });
-    // keep within the first copy so looping stays seamless
+    // advance by one card (card width + the flex gap) so it steps to the next item
+    const card = el.querySelector('figure');
+    const step = card ? card.getBoundingClientRect().width + 24 : 420;
+    // pause auto-scroll so it doesn't override the native smooth scroll mid-animation
+    pausedRef.current = true;
+    el.scrollBy({ left: dir * step, behavior: 'smooth' });
+    // keep within the first copy so looping stays seamless, then resume auto-scroll
     setTimeout(() => {
       if (el.scrollLeft >= half) el.scrollLeft -= half;
       if (el.scrollLeft < 0) el.scrollLeft += half;
-    }, 350);
+      pausedRef.current = false;
+    }, 450);
   };
 
   return (

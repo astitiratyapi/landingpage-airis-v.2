@@ -32,7 +32,14 @@ export function Navbar({ onContact, onHome, onNavigate }: NavbarProps) {
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-line shadow-sm' : 'bg-transparent border-b border-transparent'}`}
     >
       <Container className="flex items-center justify-between h-[68px]">
-        <button onClick={onHome} className="cursor-pointer">
+        <button
+          onClick={(e) => {
+            onHome(e);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          aria-label="AIRIS PACS — go to home"
+          className="cursor-pointer"
+        >
           <Logo dark={!scrolled} />
         </button>
         <nav className="hidden lg:flex items-center gap-1">

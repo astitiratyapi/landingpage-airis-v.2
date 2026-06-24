@@ -55,7 +55,10 @@ export function AIModule() {
                   <FlowBox
                     icon="monitor"
                     title="Device & Workstation"
-                    details={['Workstation Rumah Sakit', 'Device (laptop & mobile)']}
+                    details={[
+                      { label: 'Workstation Rumah Sakit', icon: 'monitor' },
+                      { label: 'Device (laptop & mobile)', icon: 'smartphone' },
+                    ]}
                   />
                   <FlowBox logo title="Satu Sehat" />
                 </div>
@@ -73,7 +76,7 @@ interface FlowBoxProps {
   title: string;
   tone?: 'accent';
   logo?: boolean;
-  details?: string[];
+  details?: { label: string; icon: IconName }[];
 }
 
 function FlowBox({ icon, title, tone, logo, details }: FlowBoxProps) {
@@ -104,9 +107,9 @@ function FlowBox({ icon, title, tone, logo, details }: FlowBoxProps) {
         {details && (
           <ul className="mt-1.5 space-y-1">
             {details.map((d) => (
-              <li key={d} className="flex items-start gap-1.5 text-[11.5px] leading-snug text-ink-muted">
-                <span className="mt-1 w-1 h-1 rounded-full bg-brand shrink-0"></span>
-                {d}
+              <li key={d.label} className="flex items-start gap-1.5 text-[11.5px] leading-snug text-ink-muted">
+                <Icon name={d.icon} className="w-3.5 h-3.5 mt-px text-brand shrink-0" />
+                {d.label}
               </li>
             ))}
           </ul>

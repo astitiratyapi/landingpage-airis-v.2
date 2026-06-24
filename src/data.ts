@@ -12,7 +12,6 @@ export interface NavLink {
 }
 
 export const NAV_LINKS: NavLink[] = [
-  { label: 'About', href: '#intro' },
   { label: 'Events', href: '#events', page: 'events' },
   { label: 'Products', href: '#products', page: 'products' },
 ];
