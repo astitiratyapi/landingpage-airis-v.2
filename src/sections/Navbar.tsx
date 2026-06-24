@@ -42,19 +42,19 @@ export function Navbar({ onContact, onHome, onNavigate }: NavbarProps) {
         >
           <Logo dark={!scrolled} />
         </button>
-        <nav className="hidden lg:flex items-center gap-1">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              onClick={handleLink(l)}
-              className={`px-3.5 py-2 rounded-md text-sm font-medium transition-colors ${scrolled ? 'text-ink-muted hover:text-brand hover:bg-brand-50' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
         <div className="hidden lg:flex items-center gap-3">
+          <nav className="flex items-center gap-1">
+            {NAV_LINKS.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={handleLink(l)}
+                className={`px-3.5 py-2 rounded-md text-sm font-medium transition-colors ${scrolled ? 'text-ink-muted hover:text-brand hover:bg-brand-50' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
           <Button variant={scrolled ? 'ghost' : 'outline-light'} size="md" onClick={onContact}>
             Contact Us
           </Button>
