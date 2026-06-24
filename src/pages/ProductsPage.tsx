@@ -2,14 +2,14 @@
 // AIRIS PACS — Products page (Core Modules)
 // ============================================================
 import { Fragment } from 'react';
-import { Button, Container, Icon, Reveal, SectionTag } from '../components/ui';
+import { Container, Icon, Reveal, SectionTag } from '../components/ui';
 import { Navbar } from '../sections/Navbar';
 import { Footer } from '../sections/Footer';
 import { CTASection } from '../sections/CTASection';
 import { MODULE_DETAILS, type ModuleDetail } from '../data';
 import { asset } from '../lib/asset';
 import type { IconName } from '../components/Icon';
-import type { NavHandler, PageNavProps } from '../types';
+import type { PageNavProps } from '../types';
 
 // Browser-style frame for product screenshots
 function ScreenFrame({ src, alt }: { src: string; alt: string }) {
@@ -33,49 +33,22 @@ function ScreenFrame({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-function ProductsHero({ onContact }: { onContact: NavHandler }) {
+function ProductsHero() {
   return (
     <section className="relative navy-grad hero-glow overflow-hidden pt-[68px]">
       <div className="absolute inset-0 grid-lines opacity-60" aria-hidden="true"></div>
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[560px] rounded-full bg-brand-500/20 blur-[120px] pointer-events-none"></div>
-      <Container className="relative py-20 lg:py-24 text-center">
+      <Container className="relative py-24 lg:py-32 text-center">
         <Reveal>
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white">
-            <Icon name="layers" className="w-4 h-4 text-brand-300" />
-            Core Modules
-          </span>
-        </Reveal>
-        <Reveal delay={80}>
-          <h1 className="mt-6 text-white font-extrabold tracking-tight text-[clamp(2.2rem,4.6vw,3.6rem)] leading-[1.06] text-balance">
+          <h1 className="text-white font-extrabold tracking-tight text-[clamp(2.2rem,4.6vw,3.6rem)] leading-[1.06] text-balance">
             Three Modules, One Platform
           </h1>
         </Reveal>
-        <Reveal delay={140}>
-          <p className="mt-5 mx-auto max-w-2xl text-[clamp(1rem,1.4vw,1.15rem)] text-white/70 text-pretty">
+        <Reveal delay={100}>
+          <p className="mt-6 mx-auto max-w-2xl text-[clamp(1rem,1.4vw,1.15rem)] text-white/70 text-pretty">
             AIRIS PACS brings the radiology worklist, AI-driven operations, and a web-based diagnostic viewer together
             into a single, interoperable system — built for the workflows of Indonesian hospitals.
           </p>
-        </Reveal>
-        <Reveal delay={200}>
-          <div className="mt-9 flex flex-wrap justify-center gap-3">
-            {MODULE_DETAILS.map((m) => (
-              <a
-                key={m.id}
-                href={`#${m.id}`}
-                className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/15 px-4 py-2 text-[13.5px] font-medium text-white/85 hover:bg-white/10 hover:border-white/30 transition-colors"
-              >
-                <Icon name={m.icon} className="w-4 h-4 text-brand-300" />
-                {m.name}
-              </a>
-            ))}
-          </div>
-        </Reveal>
-        <Reveal delay={260}>
-          <div className="mt-9 flex justify-center">
-            <Button variant="white" size="lg" icon="arrowRight" onClick={onContact}>
-              Talk to our Expert
-            </Button>
-          </div>
         </Reveal>
       </Container>
     </section>
@@ -113,6 +86,19 @@ function ModuleSection({ m, index }: { m: ModuleDetail; index: number }) {
                   </div>
                 </div>
               ))}
+            </div>
+            {/* Module user — who uses this module */}
+            <div className="mt-8">
+              <div className="text-[11px] font-bold tracking-[.16em] uppercase text-ink-faint mb-3">Who uses it</div>
+              <figure className="rounded-2xl border border-line bg-white shadow-card overflow-hidden">
+                <img
+                  src={asset(m.userImage)}
+                  alt={m.userImageAlt}
+                  className="block w-full h-auto max-w-full select-none"
+                  draggable={false}
+                  loading="lazy"
+                />
+              </figure>
             </div>
           </Reveal>
           {/* Screenshot */}
@@ -171,15 +157,96 @@ function ProductsFlow() {
   );
 }
 
+// Shared mono uppercase eyebrow for the new AI sections
+function Eyebrow({ children }: { children: string }) {
+  return (
+    <span className="font-mono text-[11px] font-semibold tracking-[.18em] uppercase text-brand">{children}</span>
+  );
+}
+
+function AIRoadmap() {
+  return (
+    <section id="ai-roadmap" className="scroll-mt-[84px] py-20 lg:py-28 bg-white">
+      <Container>
+        <Reveal className="text-center max-w-2xl mx-auto">
+          <Eyebrow>Roadmap</Eyebrow>
+          <h2 className="mt-4 font-extrabold text-[clamp(1.9rem,3.6vw,2.8rem)] tracking-tight text-ink">
+            AI Module Roadmap
+          </h2>
+          <p className="mt-4 text-ink-muted text-[16px] leading-relaxed text-pretty">
+            The phased rollout of AIRIS AI capabilities — from today's triage and segmentation models toward an
+            increasingly comprehensive clinical decision-support suite.
+          </p>
+        </Reveal>
+        <Reveal delay={120} className="mt-12 max-w-5xl mx-auto">
+          <figure className="rounded-2xl border border-line bg-white shadow-card overflow-hidden">
+            <img
+              src={asset('assets/roadmap.png')}
+              alt="AIRIS AI module roadmap showing the phased rollout of AI capabilities across the platform over time."
+              className="block w-full h-auto max-w-full select-none"
+              draggable={false}
+              loading="lazy"
+            />
+          </figure>
+        </Reveal>
+      </Container>
+    </section>
+  );
+}
+
+function AIModuleInfo() {
+  const panels = [
+    {
+      src: 'assets/aimodule1.png',
+      alt: 'AIRIS AI module — automated analysis and urgency scoring applied to an incoming study.',
+    },
+    {
+      src: 'assets/aimodule2.png',
+      alt: 'AIRIS AI module — segmentation and AI explanation overlaid on a diagnostic image.',
+    },
+  ];
+  return (
+    <section id="ai-module" className="scroll-mt-[84px] py-20 lg:py-28 bg-line-soft">
+      <Container>
+        <Reveal className="text-center max-w-2xl mx-auto">
+          <Eyebrow>AI Module</Eyebrow>
+          <h2 className="mt-4 font-extrabold text-[clamp(1.9rem,3.6vw,2.8rem)] tracking-tight text-ink">
+            Inside the AI Module
+          </h2>
+          <p className="mt-4 text-ink-muted text-[16px] leading-relaxed text-pretty">
+            A closer look at how the AIRIS AI module enriches every study — scoring urgency and rendering AI insight
+            directly into the radiologist's workflow.
+          </p>
+        </Reveal>
+        <Reveal delay={120} className="mt-12 grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+          {panels.map((p) => (
+            <figure key={p.src} className="rounded-2xl border border-line bg-white shadow-card overflow-hidden">
+              <img
+                src={asset(p.src)}
+                alt={p.alt}
+                className="block w-full h-auto max-w-full select-none"
+                draggable={false}
+                loading="lazy"
+              />
+            </figure>
+          ))}
+        </Reveal>
+      </Container>
+    </section>
+  );
+}
+
 export function ProductsPage({ onHome, onContact, onNavigate }: PageNavProps) {
   return (
     <div className="bg-white">
       <Navbar onContact={onContact} onHome={onHome} onNavigate={onNavigate} />
-      <ProductsHero onContact={onContact} />
+      <ProductsHero />
       {MODULE_DETAILS.map((m, i) => (
         <ModuleSection key={m.id} m={m} index={i} />
       ))}
       <ProductsFlow />
+      <AIRoadmap />
+      <AIModuleInfo />
       <CTASection onContact={onContact} />
       <Footer onHome={onHome} onContact={onContact} />
     </div>

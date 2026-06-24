@@ -61,6 +61,8 @@ export interface ModuleDetail {
   icon: IconName;
   image: string;
   imageAlt: string;
+  userImage: string;
+  userImageAlt: string;
   summary: string;
   capabilities: ModuleCapability[];
 }
@@ -73,6 +75,8 @@ export const MODULE_DETAILS: ModuleDetail[] = [
     icon: 'list',
     image: 'assets/airis-worklist.png',
     imageAlt: 'AIRIS Worklist operational dashboard showing prioritized studies and real-time status.',
+    userImage: 'assets/user_airisworklist.png',
+    userImageAlt: 'Radiology operations staff and radiographers using the AIRIS Worklist to triage and assign incoming studies.',
     summary:
       'An AI-driven operational layer that sits on top of your radiology queue — scoring every study by clinical urgency and balancing workload across radiologists in real time, so the most critical cases never wait.',
     capabilities: [
@@ -89,6 +93,8 @@ export const MODULE_DETAILS: ModuleDetail[] = [
     icon: 'monitor',
     image: 'assets/airis-viewer-img.png',
     imageAlt: 'AIRIS Viewer web-based diagnostic viewer with AI overlays and multiplanar reconstruction.',
+    userImage: 'assets/user_airisviewer.png',
+    userImageAlt: 'Radiologists reading studies in the AIRIS Viewer with AI overlays across desktop and mobile devices.',
     summary:
       'A web-based diagnostic viewer that opens from any device, anywhere — no installation required. Read studies with AI overlays, advanced reconstructions, and measurement tools built right in.',
     capabilities: [
@@ -105,6 +111,8 @@ export const MODULE_DETAILS: ModuleDetail[] = [
     icon: 'database',
     image: 'assets/hero/ris.png',
     imageAlt: 'AIRIS Radiology Information System centralizing orders, scheduling, and reporting.',
+    userImage: 'assets/user_radworklist.png',
+    userImageAlt: 'Radiology administrators and front-desk staff managing orders and scheduling in the Radiologist Worklist.',
     summary:
       'The radiology information system at the core of AIRIS — centralizing orders, scheduling, and reporting, and integrating cleanly with hospital information systems (SIMRS) and imaging modalities.',
     capabilities: [
