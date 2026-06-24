@@ -1,7 +1,7 @@
 // ============================================================
 // AIRIS PACS — Products page (Core Modules)
 // ============================================================
-import { Fragment } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { Container, Icon, Reveal, SectionTag } from '../components/ui';
 import { Navbar } from '../sections/Navbar';
 import { Footer } from '../sections/Footer';
@@ -194,16 +194,49 @@ function AIRoadmap() {
   );
 }
 
+// One AI-module block: image on one side, content on the other (stacked on mobile).
+function AIBlock({
+  image,
+  alt,
+  title,
+  flip = false,
+  children,
+}: {
+  image: string;
+  alt: string;
+  title: string;
+  flip?: boolean;
+  children?: ReactNode;
+}) {
+  return (
+    <div className="rounded-2xl border border-line bg-white shadow-card overflow-hidden">
+      <div className="grid md:grid-cols-2 items-center">
+        {/* Image */}
+        <div className={`bg-line-soft ${flip ? 'md:order-2' : ''}`}>
+          <img
+            src={asset(image)}
+            alt={alt}
+            className="block w-full h-auto max-w-full select-none"
+            draggable={false}
+            loading="lazy"
+          />
+        </div>
+        {/* Content */}
+        <div className={`p-6 sm:p-8 ${flip ? 'md:order-1' : ''}`}>
+          <h3 className="font-bold text-ink text-[clamp(1.05rem,1.8vw,1.35rem)] leading-snug text-balance">{title}</h3>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AIModuleInfo() {
-  const panels = [
-    {
-      src: 'assets/aimodule1.png',
-      alt: 'AIRIS AI module — automated analysis and urgency scoring applied to an incoming study.',
-    },
-    {
-      src: 'assets/aimodule2.png',
-      alt: 'AIRIS AI module — segmentation and AI explanation overlaid on a diagnostic image.',
-    },
+  const keyFeatures: [string, string][] = [
+    ['Urgency Scoring', "Displayed on the radiologist's worklist as a numerical score ranging from 0 (normal) to 3 (urgent)."],
+    ['Text-Based Explanation', 'Provided as text, detailing the reasoning behind a specific urgency score for a CXR case, complete with probability and uncertainty values.'],
+    ['Image-Based Explanation', 'Highlights critical areas of interest on the CXR image.'],
+    ['Automated Routine CXR Segmentation and Measurement', 'Automatically segments objects within the CXR image and measures the cardiothoracic ratio (CTR).'],
   ];
   return (
     <section id="ai-module" className="scroll-mt-[84px] py-20 lg:py-28 bg-line-soft">
@@ -218,18 +251,74 @@ function AIModuleInfo() {
             directly into the radiologist's workflow.
           </p>
         </Reveal>
-        <Reveal delay={120} className="mt-12 grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
-          {panels.map((p) => (
-            <figure key={p.src} className="rounded-2xl border border-line bg-white shadow-card overflow-hidden">
-              <img
-                src={asset(p.src)}
-                alt={p.alt}
-                className="block w-full h-auto max-w-full select-none"
-                draggable={false}
-                loading="lazy"
-              />
-            </figure>
-          ))}
+
+        <div className="mt-12 max-w-5xl mx-auto space-y-6">
+          {/* Block 1 — CXR urgency scoring (image left, content right) */}
+          <Reveal>
+            <AIBlock
+              image="assets/aimodule_1.png"
+              alt="AIRIS AI module — CXR urgency scoring with text and image-based explanations and automated cardiothoracic-ratio segmentation."
+              title="CXR Urgency Scoring & Explainable Triage"
+            >
+              <div className="mt-5 space-y-4 text-[14px] leading-relaxed text-ink-muted">
+                <div>
+                  <div className="text-[11px] font-bold tracking-[.14em] uppercase text-ink-faint mb-1">Positive Impact</div>
+                  <p>
+                    Significant time savings, as urgent studies are flagged immediately upon receipt instead of awaiting
+                    periodic human triage, reducing the average time to first read by up to 20 minutes (in addition to
+                    eliminating manual sorting and human annotation review).
+                  </p>
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold tracking-[.14em] uppercase text-ink-faint mb-1">
+                    Estimated Processing Time
+                  </div>
+                  <p>
+                    Approximately 2 minutes per CXR scan using a standard CPU (without the need for additional GPU
+                    accelerators).
+                  </p>
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold tracking-[.14em] uppercase text-ink-faint mb-2">Key Features:</div>
+                  <ul className="space-y-2">
+                    {keyFeatures.map(([term, desc]) => (
+                      <li key={term} className="flex gap-2.5">
+                        <span className="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
+                        <span>
+                          <span className="font-semibold text-ink">{term}:</span> {desc}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </AIBlock>
+          </Reveal>
+
+          {/* Block 2 — Abdomen CT (image right, title only) */}
+          <Reveal delay={80}>
+            <AIBlock
+              image="assets/aimodule_2.png"
+              alt="AIRIS AI module — abdomen CT for quantification and detection of kidney stones."
+              title="Abdomen CT for Quantification and Detection of Kidney Stones"
+              flip
+            />
+          </Reveal>
+
+          {/* Block 3 — Brain CT (image left, title only) */}
+          <Reveal delay={80}>
+            <AIBlock
+              image="assets/aimodule_3.png"
+              alt="AIRIS AI module — brain CT for quantification and detection of brain hemorrhage."
+              title="Brain CT for Quantification and Detection of Brain Hemorrhage"
+            />
+          </Reveal>
+        </div>
+
+        <Reveal>
+          <p className="mt-8 text-center text-[13px] text-ink-faint">
+            Note that certain AI modules may require additional licensing and GPU.
+          </p>
         </Reveal>
       </Container>
     </section>
