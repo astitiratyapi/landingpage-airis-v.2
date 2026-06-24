@@ -87,19 +87,6 @@ function ModuleSection({ m, index }: { m: ModuleDetail; index: number }) {
                 </div>
               ))}
             </div>
-            {/* Module user — who uses this module */}
-            <div className="mt-8">
-              <div className="text-[11px] font-bold tracking-[.16em] uppercase text-ink-faint mb-3">Who uses it</div>
-              <figure className="rounded-2xl border border-line bg-white shadow-card overflow-hidden">
-                <img
-                  src={asset(m.userImage)}
-                  alt={m.userImageAlt}
-                  className="block w-full h-auto max-w-full select-none"
-                  draggable={false}
-                  loading="lazy"
-                />
-              </figure>
-            </div>
           </Reveal>
           {/* Screenshot */}
           <Reveal delay={120} className={flip ? 'lg:order-1' : ''}>
