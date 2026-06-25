@@ -174,50 +174,6 @@ function FilterCard({ values, set, onApply }: FilterCardProps) {
   );
 }
 
-// Expanded past-event card — same anatomy as EventCard, sized to hold a workshop schedule.
-function PastEventCard({ ev }: { ev: AirisEvent }) {
-  return (
-    <article className="group rounded-2xl border border-line bg-white shadow-card overflow-hidden hover:shadow-lift transition-all duration-300">
-      <EventCover ev={ev} past />
-      <div className="p-6 sm:p-8">
-        <h3 className="font-bold text-ink text-[clamp(1.1rem,2vw,1.4rem)] leading-snug text-pretty">{ev.title}</h3>
-        <div className="mt-4 flex items-start gap-2 text-[13.5px] text-ink-muted">
-          <Icon name="mapPin" className="w-4 h-4 mt-px text-brand shrink-0" />
-          <span className="text-pretty">{ev.location}</span>
-        </div>
-
-        {ev.schedule && (
-          <div className="mt-6">
-            <div className="text-[11px] font-bold tracking-[.16em] uppercase text-ink-faint mb-3">Workshop Topics</div>
-            <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2">
-              {ev.schedule.map((d) => (
-                <div key={d.day}>
-                  <div className="text-[13px] font-bold text-ink mb-2">{d.day}</div>
-                  <ul className="space-y-2">
-                    {d.sessions.map((s) => (
-                      <li key={s} className="flex gap-2.5 text-[13.5px] text-ink-muted">
-                        <span className="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
-                        <span className="text-pretty">{s}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="mt-6 pt-5 border-t border-line flex items-center justify-between gap-3">
-          <span className="text-[12.5px] font-medium text-ink-faint">{ev.date}</span>
-          <Button variant="outline" size="sm" iconLeft="play">
-            View Recap
-          </Button>
-        </div>
-      </div>
-    </article>
-  );
-}
-
 function PastEvents() {
   return (
     <section className="py-20 lg:py-24 bg-line-soft">
@@ -226,10 +182,11 @@ function PastEvents() {
         <h2 className="mt-3 text-ink font-extrabold tracking-tight text-[clamp(1.7rem,3vw,2.4rem)]">
           Previous Events
         </h2>
-        <div className="mt-8 max-w-3xl space-y-6">
+        {/* Same card + grid sizing as the Upcoming Events listing */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {PAST_EVENTS.map((ev, i) => (
-            <Reveal key={i} delay={i * 80}>
-              <PastEventCard ev={ev} />
+            <Reveal key={i} delay={i * 70}>
+              <EventCard ev={ev} />
             </Reveal>
           ))}
         </div>
