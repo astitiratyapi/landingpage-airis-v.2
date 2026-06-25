@@ -259,7 +259,7 @@ export interface AirisEvent {
 
 export const UPCOMING_EVENTS: AirisEvent[] = [
   {
-    title: 'PARI Pengda',
+    title: 'PARI PENGDA',
     dateBadge: '26–28 June 2026', dateISO: '2026-06-26',
     categories: ['Exhibition', 'Workshop'], icon: 'sparkles', tint: 'brand',
     image: 'assets/events/pari-pengda.jpg',
@@ -282,6 +282,7 @@ export const PAST_EVENTS: AirisEvent[] = [
     title: 'Current Updates In Radiology (CUIR) 2025',
     dateBadge: '22–23 November 2025', date: '22–23 November 2025',
     categories: ['Exhibition', 'Workshop'], icon: 'calendar', tint: 'brand',
+    image: 'assets/cuir.jpg',
     location:
       'Lt. 3 Auditorium IMERI FKUI, Jl. Salemba Raya No.6, RT.2/RW.6, Kenari, Kec. Senen, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10430',
     schedule: [
