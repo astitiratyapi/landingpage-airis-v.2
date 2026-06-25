@@ -254,6 +254,7 @@ export interface AirisEvent {
   role?: string;
   topic?: string;
   capacity?: string;
+  schedule?: { day: string; sessions: string[] }[];
 }
 
 export const UPCOMING_EVENTS: AirisEvent[] = [
@@ -278,22 +279,15 @@ export const UPCOMING_EVENTS: AirisEvent[] = [
 
 export const PAST_EVENTS: AirisEvent[] = [
   {
-    title: 'Webinar: Digitalisasi Layanan Radiologi di Era SatuSehat',
-    dateBadge: '12 March 2026', date: '12 March 2026',
-    categories: ['Webinar'], icon: 'activity', tint: 'navy',
-    location: 'Online', capacity: '620 attendees',
-  },
-  {
-    title: 'Workshop: Implementasi PACS Tanpa Vendor Lock-in',
-    dateBadge: '5 February 2026', date: '5 February 2026',
-    categories: ['Workshop'], icon: 'workflow', tint: 'brand',
-    location: 'Surabaya', capacity: '85 participants',
-  },
-  {
-    title: 'AIRIS Talks: Masa Depan AI untuk Diagnostik Pencitraan',
-    dateBadge: '20 January 2026', date: '20 January 2026',
-    categories: ['Talkshow'], icon: 'globe', tint: 'accent',
-    location: 'Bandung', capacity: '240 attendees',
+    title: 'Current Updates In Radiology (CUIR) 2025',
+    dateBadge: '22–23 November 2025', date: '22–23 November 2025',
+    categories: ['Exhibition', 'Workshop'], icon: 'calendar', tint: 'brand',
+    location:
+      'Lt. 3 Auditorium IMERI FKUI, Jl. Salemba Raya No.6, RT.2/RW.6, Kenari, Kec. Senen, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10430',
+    schedule: [
+      { day: 'Day 1', sessions: ['Musculoskeletal Radiology Workshop', 'Abdominal Radiology Workshop'] },
+      { day: 'Day 2', sessions: ['Neuroradiology – Head and Neck Workshop'] },
+    ],
   },
 ];
 

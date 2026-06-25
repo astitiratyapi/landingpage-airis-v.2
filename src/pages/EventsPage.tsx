@@ -1,13 +1,13 @@
 // ============================================================
 // AIRIS PACS — Events page
 // ============================================================
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Button, Container, Field, Icon, Reveal, SectionTag } from '../components/ui';
 import { Navbar } from '../sections/Navbar';
 import { Footer } from '../sections/Footer';
-import { EVENT_PERKS, PAST_EVENTS, UPCOMING_EVENTS, type AirisEvent, type EventTint } from '../data';
+import { PAST_EVENTS, UPCOMING_EVENTS, type AirisEvent, type EventTint } from '../data';
 import { asset } from '../lib/asset';
-import type { NavHandler, PageNavProps } from '../types';
+import type { PageNavProps } from '../types';
 
 const EV_TINTS: Record<EventTint, string> = {
   brand: 'from-brand-600 to-brand-800',
@@ -107,7 +107,7 @@ function EventCard({ ev, variant = 'upcoming' }: { ev: AirisEvent; variant?: 'up
   );
 }
 
-function EventsHero({ onContact }: { onContact: NavHandler }) {
+function EventsHero() {
   return (
     <section className="relative navy-grad hero-glow overflow-hidden pt-[68px]">
       <div className="absolute inset-0 grid-lines opacity-60" aria-hidden="true"></div>
@@ -115,43 +115,17 @@ function EventsHero({ onContact }: { onContact: NavHandler }) {
       {/* faint floating event glyphs */}
       <Icon name="calendar" className="hidden md:block absolute right-[8%] top-[28%] w-24 h-24 text-white/[.06]" stroke={1.5} />
       <Icon name="users" className="hidden md:block absolute left-[7%] bottom-[14%] w-20 h-20 text-white/[.06]" stroke={1.5} />
-      <Container className="relative py-20 lg:py-24 text-center">
+      <Container className="relative py-24 lg:py-32 text-center">
         <Reveal>
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white">
-            <Icon name="sparkles" className="w-4 h-4 text-brand-300" />
-            Boost Your Competency
-          </span>
-        </Reveal>
-        <Reveal delay={80}>
-          <h1 className="mt-6 text-white font-extrabold tracking-tight text-[clamp(2.2rem,4.6vw,3.6rem)] leading-[1.06] text-balance">
+          <h1 className="text-white font-extrabold tracking-tight text-[clamp(2.2rem,4.6vw,3.6rem)] leading-[1.06] text-balance">
             AIRIS Events &amp; Workshops
           </h1>
         </Reveal>
-        <Reveal delay={140}>
-          <p className="mt-5 mx-auto max-w-2xl text-[clamp(1rem,1.4vw,1.15rem)] text-white/70 text-pretty">
+        <Reveal delay={100}>
+          <p className="mt-6 mx-auto max-w-2xl text-[clamp(1rem,1.4vw,1.15rem)] text-white/70 text-pretty">
             Learn hospital digital transformation, operational management, and health technology through webinars,
             workshops, and exclusive training with industry experts.
           </p>
-        </Reveal>
-        <Reveal delay={200}>
-          <div className="mt-9 flex justify-center">
-            <Button variant="white" size="lg" icon="arrowRight" onClick={onContact}>
-              Contact Marketing Team
-            </Button>
-          </div>
-        </Reveal>
-        <Reveal delay={260}>
-          <div className="mt-9 flex flex-wrap justify-center gap-3">
-            {EVENT_PERKS.map((p) => (
-              <span
-                key={p.label}
-                className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/15 px-4 py-2 text-[13.5px] font-medium text-white/85"
-              >
-                <Icon name={p.icon} className="w-4 h-4 text-brand-300" />
-                {p.label}
-              </span>
-            ))}
-          </div>
         </Reveal>
       </Container>
     </section>
@@ -200,44 +174,63 @@ function FilterCard({ values, set, onApply }: FilterCardProps) {
   );
 }
 
+// Expanded past-event card — same anatomy as EventCard, sized to hold a workshop schedule.
+function PastEventCard({ ev }: { ev: AirisEvent }) {
+  return (
+    <article className="group rounded-2xl border border-line bg-white shadow-card overflow-hidden hover:shadow-lift transition-all duration-300">
+      <EventCover ev={ev} past />
+      <div className="p-6 sm:p-8">
+        <h3 className="font-bold text-ink text-[clamp(1.1rem,2vw,1.4rem)] leading-snug text-pretty">{ev.title}</h3>
+        <div className="mt-4 flex items-start gap-2 text-[13.5px] text-ink-muted">
+          <Icon name="mapPin" className="w-4 h-4 mt-px text-brand shrink-0" />
+          <span className="text-pretty">{ev.location}</span>
+        </div>
+
+        {ev.schedule && (
+          <div className="mt-6">
+            <div className="text-[11px] font-bold tracking-[.16em] uppercase text-ink-faint mb-3">Workshop Topics</div>
+            <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2">
+              {ev.schedule.map((d) => (
+                <div key={d.day}>
+                  <div className="text-[13px] font-bold text-ink mb-2">{d.day}</div>
+                  <ul className="space-y-2">
+                    {d.sessions.map((s) => (
+                      <li key={s} className="flex gap-2.5 text-[13.5px] text-ink-muted">
+                        <span className="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
+                        <span className="text-pretty">{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-6 pt-5 border-t border-line flex items-center justify-between gap-3">
+          <span className="text-[12.5px] font-medium text-ink-faint">{ev.date}</span>
+          <Button variant="outline" size="sm" iconLeft="play">
+            View Recap
+          </Button>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function PastEvents() {
-  const ref = useRef<HTMLDivElement>(null);
-  const scroll = (dir: number) => {
-    const el = ref.current;
-    if (el) el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 380), behavior: 'smooth' });
-  };
   return (
     <section className="py-20 lg:py-24 bg-line-soft">
       <Container>
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <SectionTag>Recap</SectionTag>
-            <h2 className="mt-3 text-ink font-extrabold tracking-tight text-[clamp(1.7rem,3vw,2.4rem)]">
-              Previous Events
-            </h2>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => scroll(-1)}
-              aria-label="Previous events"
-              className="w-11 h-11 rounded-full border border-line bg-white text-ink grid place-items-center shadow-sm hover:text-brand hover:border-brand-300 active:scale-95 transition-all"
-            >
-              <Icon name="chevronLeft" className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => scroll(1)}
-              aria-label="Next events"
-              className="w-11 h-11 rounded-full border border-line bg-white text-ink grid place-items-center shadow-sm hover:text-brand hover:border-brand-300 active:scale-95 transition-all"
-            >
-              <Icon name="chevronRight" className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-        <div ref={ref} className="mt-8 flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory pb-2 -mx-1 px-1">
+        <SectionTag>Recap</SectionTag>
+        <h2 className="mt-3 text-ink font-extrabold tracking-tight text-[clamp(1.7rem,3vw,2.4rem)]">
+          Previous Events
+        </h2>
+        <div className="mt-8 max-w-3xl space-y-6">
           {PAST_EVENTS.map((ev, i) => (
-            <div key={i} className="snap-start shrink-0 w-[280px] sm:w-[330px]">
-              <EventCard ev={ev} variant="past" />
-            </div>
+            <Reveal key={i} delay={i * 80}>
+              <PastEventCard ev={ev} />
+            </Reveal>
           ))}
         </div>
       </Container>
@@ -262,7 +255,7 @@ export function EventsPage({ onHome, onContact, onNavigate }: PageNavProps) {
   return (
     <div className="bg-white">
       <Navbar onContact={onContact} onHome={onHome} onNavigate={onNavigate} />
-      <EventsHero onContact={onContact} />
+      <EventsHero />
 
       {/* Listing */}
       <section className="py-20 lg:py-24 bg-white">
